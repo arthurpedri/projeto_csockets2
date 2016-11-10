@@ -47,6 +47,7 @@ void* escuta()
         printf("recebeu\n");
 	c = (char *)msg;
         if (crc8(0,c,279) == msg->crc){ // Se crc calculado da msg é igual ao campo crc da msg ele executa, caso contrario ele nao repassa a msg
+            printf("primeiro crc\n");
             if(msg->token == 1){ // Ve se é o token
             printf("token\n");
                 msg->token = 0;
