@@ -70,8 +70,8 @@ void* escuta()
                             while(1){ // timeout de envio de msg
                                 printf("È aqui\n");
                                 c = (char *)prox;
-                                printf("Passou\n");
                                 prox->crc = crc8(0, c, 279);
+                                printf("Passou\n");
                                 sendto(sockdescr, prox, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
                                 read_timeout.tv_sec = 2;
                                 read_timeout.tv_usec = 2000;
