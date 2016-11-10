@@ -44,7 +44,7 @@ void* escuta()
 	while(1){
         recvfrom(socketserver, msg, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
         //Decodificar CRC
-        printf("recebeu\n");
+        printf("RECEBI\nDe: %s Para: %s\nMsg: %s\n", msg->source, msg->destiny, msg->data);
 	c = (char *)msg;
         if (crc8(0,c,279) == msg->crc){ // Se crc calculado da msg é igual ao campo crc da msg ele executa, caso contrario ele nao repassa a msg
             printf("primeiro crc\n");
