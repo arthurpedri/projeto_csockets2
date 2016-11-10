@@ -40,7 +40,6 @@ void* escuta()
     int a;
     struct timeval read_timeout;
     char *c;
-	printf("Antes recv\n");
 	while(1){
         recvfrom(socketserver, msg, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
         //Decodificar CRC
@@ -237,7 +236,6 @@ main(int argc, char *argv[])
         fgets(buffer, 275, stdin);
         prepara_msg(msg, buffer, host);
         push_fila(fila, msg);
-        printf("%d\n",fila->tam);
     }
 
     close(sockdescr);
