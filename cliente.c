@@ -316,6 +316,7 @@ unsigned crc8(unsigned crc, char *data, size_t len)
     // end = data + len;
     end = 0;
     do {
+        printf("%d-%c\n", end, data[end]);
         crc = crc8_table[crc ^ data[end]];
         end++;
     } while (end < len);
