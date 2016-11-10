@@ -178,7 +178,7 @@ main(int argc, char *argv[])
         copia_string(host, token->source);
         copia_string(destiny, token->destiny);
         token->size = 0;
-        memset(token->data,0,DATA_MAXSIZE*sizeof(char))
+        memset(token->data,0,DATA_MAXSIZE*sizeof(char));
         token->data[0] = '\n';
         c = (char *)token;
         printf("aqui\n");
