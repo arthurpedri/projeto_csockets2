@@ -104,14 +104,14 @@ void* escuta()
                 }
             }
             else{ // msg nao e token
-                printf("Mensagem não é token\n", );
+                printf("Mensagem não é token\n");
                 if (fila->tam !=0) { // Se tiver msg para enviar, compara o campo de hi_priority e substitui se for maior
                     if (msg->priority < fila->hi_priority) {
                         msg->priority = fila->hi_priority;
                     }
                 }
                 if (strcmp(msg->destiny, host) == 0) { // Checa remetente. Se for imprime, e seta o bit monitor
-                    printf("Mensagem para mim\n", );
+                    printf("Mensagem para mim\n");
                     msg->monitor = 1;
                     printf("Msg de %s:\n>%s\n",msg->source, msg->data);
                 }
