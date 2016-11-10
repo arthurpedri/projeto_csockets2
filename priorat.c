@@ -27,6 +27,7 @@ char host[]={'p','r','i','o','r','a','t', 0, 0, 0} ;
 char destiny[] ={'b','o','w','m','o','r','e', 0, 0, 0}  ;
 struct sockaddr_in sa, isa;
 int sockdescr, socketserver;
+fd_set readset;
 
 void* escuta()
 {
@@ -37,9 +38,6 @@ void* escuta()
     int a;
     struct timeval read_timeout;
     char *c;
-    fd_set readset;
-    FD_ZERO(&readset);
-    FD_SET(socketserver, &readset);
 	printf("Antes recv\n");
 	while(1){
         recvfrom(socketserver, msg, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
@@ -177,7 +175,8 @@ main(int argc, char *argv[])
                 exit ( 1 );
         }
 
-
+    FD_ZERO(&readset);
+    FD_SET(socketserver, &readset);
     char buffer[275];
     fila = malloc(sizeof(Fila));
     init_fila(fila);
@@ -200,9 +199,6 @@ main(int argc, char *argv[])
 		printf("Chora\n");
         sendto(sockdescr, token, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
         struct timeval read_timeout;
-        fd_set readset;
-        FD_ZERO(&readset);
-        FD_SET(socketserver, &readset);
         read_timeout.tv_sec = 5;
         read_timeout.tv_usec = 5000;
         int a = 100;
