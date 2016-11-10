@@ -97,7 +97,6 @@ void* escuta()
                         read_timeout.tv_usec = 5000;
                         a = 100;
                         a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
-                        break;
                         printf("a: %d\n", a);
                         if (a == 1) { //Mensagem foi recebida
                             recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
