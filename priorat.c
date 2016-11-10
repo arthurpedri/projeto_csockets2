@@ -93,8 +93,8 @@ void* escuta()
                     while(1){ // timeout de envio de token
                         printf("while de timout\n");
                         sendto(sockdescr, msg, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
-                        read_timeout.tv_sec = 2;
-                        read_timeout.tv_usec = 2000;
+                        read_timeout.tv_sec = 5;
+                        read_timeout.tv_usec = 5000;
                         a = 100;
                         a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
                         printf("a: %d\n", a);
