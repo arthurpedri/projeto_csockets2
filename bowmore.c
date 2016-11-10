@@ -44,15 +44,15 @@ void* escuta()
 	while(1){
         recvfrom(socketserver, msg, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
         //Decodificar CRC
-        printf("RECEBI\nDe: %s Para: %s\nMsg: %s\n", msg->source, msg->destiny, msg->data);
+        // printf("RECEBI\nDe: %s Para: %s\nMsg: %s\n", msg->source, msg->destiny, msg->data);
 	    c = (char *)msg;
         if (crc8(0,c,279) == msg->crc){ // Se crc calculado da msg é igual ao campo crc da msg ele executa, caso contrario ele nao repassa a msg
-            printf("primeiro crc\n");
+            // printf("primeiro crc\n");
             if(msg->token == 1){ // Ve se é o token
-            printf("token\n");
+            // printf("token\n");
                 msg->token = 0;
                 msg->monitor = 1;
-                printf("source: %s\ndestiny: %s\n",msg->source, msg->destiny);
+                // printf("source: %s\ndestiny: %s\n",msg->source, msg->destiny);
                 c = (char *)msg;
                 msg->crc = crc8(0, c, 279);
                 sendto(sockdescr, msg, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
@@ -60,7 +60,7 @@ void* escuta()
                 read_timeout.tv_usec = 5000;
                 a = 100;
                 a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
-                printf("Resposta do select: %d\n", a);
+                // printf("Resposta do select: %d\n", a);
                 if (a != 1) { // A confirmação do token está de boas, caso nao esteja ele volta a escutar
                     if ((fila->tam > 0) && (msg->hi_priority <= fila->hi_priority)) { // Tem msg pra enviar e prioridade da fila maior ou igual a prioridade da rede
                         aux = msg;
@@ -76,7 +76,7 @@ void* escuta()
                                 read_timeout.tv_sec = 2;
                                 read_timeout.tv_usec = 2000;
                                 recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
-                                printf("Lendo a confirmação: %s\ndestiny: %s\n",aux->source, aux->destiny);
+                                // printf("Lendo a confirmação: %s\ndestiny: %s\n",aux->source, aux->destiny);
                                 break;
                                 a = 100;
                                 a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
@@ -90,7 +90,7 @@ void* escuta()
                         }
                     }
                     // Mandar token pra rede
-                    printf("gerando token\n");
+                    // printf("gerando token\n");
                     msg->token = 1;
                     msg->monitor = 0;
                     copia_string(host, msg->source);
@@ -98,19 +98,19 @@ void* escuta()
                     c = (char *)msg;
                     msg->crc = crc8(0, c, 279);
                     while(1){ // timeout de envio de token
-                        printf("while de timout\n");
+                        // printf("while de timout\n");
                         sendto(sockdescr, msg, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
                         read_timeout.tv_sec = 5;
                         read_timeout.tv_usec = 5000;
                         a = 100;
                         recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
-                        printf("Lendo a confirmação: %s\ndestiny: %s\n",aux->source, aux->destiny);
+                        // printf("Lendo a confirmação: %s\ndestiny: %s\n",aux->source, aux->destiny);
                         break;
                         a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
                         printf("a: %d\n", a);
                         if (a == 1) { //Mensagem foi recebida
                             recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
-                            printf("Lendo a confirmação: %s\ndestiny: %s\n",aux->source, aux->destiny);
+                            // printf("Lendo a confirmação: %s\ndestiny: %s\n",aux->source, aux->destiny);
                             if ((strcmp(aux->destiny, msg->destiny) == 0) && (strcmp(aux->source, msg->source) == 0) && (aux->monitor == 1)) { //Mensagem recebida pelo destino
                                 break;
                             }
@@ -120,21 +120,21 @@ void* escuta()
                 }
             }
             else{ // msg nao e token
-                printf("Mensagem não é token\n");
+                // printf("Mensagem não é token\n");
                 if (fila->tam !=0) { // Se tiver msg para enviar, compara o campo de hi_priority e substitui se for maior
                     if (msg->priority < fila->hi_priority) {
                         msg->priority = fila->hi_priority;
                     }
                 }
                 if (strcmp(msg->destiny, host) == 0) { // Checa remetente. Se for imprime, e seta o bit monitor
-                    printf("Mensagem para mim\n");
+                    // printf("Mensagem para mim\n");
                     msg->monitor = 1;
                     printf("Msg de %s:\n>%s\n",msg->source, msg->data);
                 }
                 c = (char *)msg;
                 msg->crc = crc8(0,c,279);
                 // Passa msg para frente
-                printf("PAssando para frente source: %s\ndestiny: %s\n",msg->source, msg->destiny);
+                // printf("PAssando para frente source: %s\ndestiny: %s\n",msg->source, msg->destiny);
                 sendto(sockdescr, msg, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
             }
         }
@@ -206,21 +206,21 @@ main(int argc, char *argv[])
         memset(token->data,0,DATA_MAXSIZE*sizeof(char));
         token->data[0] = '\n';
         c = (char *)token;
-        printf("aqui\n");
+        // printf("aqui\n");
         token->crc = crc8(0, c, 279);
-		printf("Chora\n");
+		// printf("Chora\n");
         sendto(sockdescr, token, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
         struct timeval read_timeout;
         read_timeout.tv_sec = 5;
         read_timeout.tv_usec = 5000;
         int a = 100;
         a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
-        printf("Envio do primeiro token%d\n", a);
+        // printf("Envio do primeiro token%d\n", a);
         if (a == 1) { //Mensagem foi recebida
             recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
-            printf("Lendo a confirmação: %s destiny: %s srtcmp: %d %d monitor:%d\n",aux->source, aux->destiny, strcmp(aux->destiny, aux->destiny), strcmp(aux->source, token->source), aux->monitor);
+            // printf("Lendo a confirmação: %s destiny: %s srtcmp: %d %d monitor:%d\n",aux->source, aux->destiny, strcmp(aux->destiny, aux->destiny), strcmp(aux->source, token->source), aux->monitor);
             if ((strcmp(aux->destiny, token->destiny) == 0) && (strcmp(aux->source, token->source) == 0) && (aux->monitor == 1)) { //Mensagem recebida pelo destino
-                printf("confirmação de recebimento\n");
+                // printf("confirmação de recebimento\n");
             }
         }
     }
