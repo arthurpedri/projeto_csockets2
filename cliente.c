@@ -201,7 +201,7 @@ main(int argc, char *argv[])
         FD_SET(socketserver, &readset);
         read_timeout.tv_sec = 1;
         read_timeout.tv_usec = 1000;
-        a = 100;
+        int a = 100;
         a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
         printf("Envio do primeiro token%d\n", a);
         if (a == 1) { //Mensagem foi recebida
