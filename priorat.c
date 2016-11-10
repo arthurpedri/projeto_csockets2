@@ -70,13 +70,14 @@ void* escuta()
                             memset(prox,0,280*sizeof(char));
                             prox = pop_fila(fila);
                             while(1){ // timeout de envio de msg
-                                printf("È aqui\n");
                                 c = (char *)prox;
                                 prox->crc = crc8(0, c, 279);
-                                printf("Passou\n");
                                 sendto(sockdescr, prox, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
                                 read_timeout.tv_sec = 2;
                                 read_timeout.tv_usec = 2000;
+                                recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
+                                printf("Lendo a confirmação: %s\ndestiny: %s\n",aux->source, aux->destiny);
+                                break;
                                 a = 100;
                                 a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
                                 if (a == 1) { //Mensagem foi recebida
