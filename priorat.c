@@ -56,8 +56,8 @@ void* escuta()
                 c = (char *)msg;
                 msg->crc = crc8(0, c, 279);
                 sendto(sockdescr, msg, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
-                read_timeout.tv_sec = 3;
-                read_timeout.tv_usec = 3000;
+                read_timeout.tv_sec = 5;
+                read_timeout.tv_usec = 5000;
                 a = 100;
                 a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
                 printf("Resposta do select: %d\n", a);
