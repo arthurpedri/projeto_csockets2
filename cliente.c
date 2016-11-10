@@ -23,7 +23,7 @@ void copia_string (char *entrada, char *copia);
 double timestamp(void);
 
 Fila *fila;
-char host[]={'m','a','c','a','l','a','n', 0, 0, 0};
+char host[]={'t','a','l','i','s','k','e', 'r', 0, 0};
 char destiny[] ={'p','r','i','o','r','a','t', 0, 0, 0}  ;
 struct sockaddr_in sa, isa;
 int sockdescr, socketserver;

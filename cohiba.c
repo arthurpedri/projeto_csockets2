@@ -24,7 +24,7 @@ double timestamp(void);
 
 Fila *fila;
 char host[]={'c','o','h','i','b','a', 0, 0, 0, 0};
-char destiny[] = {'m','a','c','a','l','a','n', 0, 0, 0} ;
+char destiny[] = {'t','a','l','i','s','k','e', 'r', 0, 0} ;
 struct sockaddr_in sa, isa;
 int sockdescr, socketserver;
 
