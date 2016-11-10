@@ -125,7 +125,8 @@ void* escuta()
                 msg->crc = crc8(0,c,279);
                 // Passa msg para frente
                 printf("PAssando para frente source: %s\ndestiny: %s\n",msg->source, msg->destiny);
-                sendto(sockdescr, msg, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
+                int b = sendto(sockdescr, msg, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
+                printf("%d\n", b);
             }
         }
 	}
