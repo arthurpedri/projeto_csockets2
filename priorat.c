@@ -262,6 +262,11 @@ void prepara_msg(Packet *msg,char *buffer,char *host){
 
     copia_string(host, msg->source);
     msg->monitor = 0;
+    msg->begin = 97;
+    msg->token = 0;
+    msg->hi_priority = 0;
+    msg->size = 256;
+    msg->crc = 0;
 }
 
 void init_fila (Fila *fila){
