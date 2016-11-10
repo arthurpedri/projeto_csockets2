@@ -68,6 +68,8 @@ void* escuta()
                         while ((((timestamp() - tempo_inicial)/1000) < 10) && (fila->hi_priority >= aux->hi_priority) && (fila->tam !=0)) {// While de tempo de bastão enviando mensagem
                             Packet *prox = pop_fila(fila);
                             while(1){ // timeout de envio de msg
+                                c = (char *)msg;
+                                prox->crc = crc8(0, c, 279);
                                 sendto(sockdescr, prox, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
                                 read_timeout.tv_sec = 2;
                                 read_timeout.tv_usec = 2000;
