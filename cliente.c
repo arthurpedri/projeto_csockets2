@@ -178,6 +178,7 @@ main(int argc, char *argv[])
     fila = malloc(sizeof(Fila));
     init_fila(fila);
     Packet *token = malloc(sizeof(Packet));
+    Packet *aux = malloc(sizeof(Packet));
     if(argv[1] != NULL){
         token->begin = 97;
         token->priority = 0;
@@ -194,6 +195,22 @@ main(int argc, char *argv[])
         token->crc = crc8(0, c, 279);
 		printf("Chora\n");
         sendto(sockdescr, token, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
+        struct timeval read_timeout;
+        fd_set readset;
+        FD_ZERO(&readset);
+        FD_SET(socketserver, &readset);
+        read_timeout.tv_sec = 1;
+        read_timeout.tv_usec = 1000;
+        a = 100;
+        a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
+        printf("Envio do primeiro token%d\n", a);
+        if (a == 1) { //Mensagem foi recebida
+            recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
+            printf("Lendo a confirmação: %s\ndestiny: %s\n",aux->source, aux->destiny);
+            if ((strcmp(aux->destiny, token->destiny) == 0) && (strcmp(aux->source, token->source) == 0) && (token->monitor == 1)) { //Mensagem recebida pelo destino
+                printf("confirmação de recebimento\n");
+            }
+        }
     }
 // cria thread para escutar a rede
     pthread_t tid;
