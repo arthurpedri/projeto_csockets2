@@ -40,11 +40,11 @@ void* escuta()
     fd_set readset;
     FD_ZERO(&readset);
     FD_SET(socketserver, &readset);
-				printf("antes\n");
+	printf("Antes recv\n");
 	while(1){
         recvfrom(socketserver, msg, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
         //Decodificar CRC
-        printf("recebeu");
+        printf("recebeu\n");
 	c = (char *)msg;
         if (crc8(0,c,279) == msg->crc){ // Se crc calculado da msg é igual ao campo crc da msg ele executa, caso contrario ele nao repassa a msg
             if(msg->token == 1){ // Ve se é o token

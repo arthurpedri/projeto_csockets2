@@ -39,13 +39,13 @@ void* escuta()
     char *c;
     fd_set readset;
     FD_ZERO(&readset);
-    FD_SET(sockdescr, &readset);
-				printf("antes\n");
+    FD_SET(socketserver, &readset);
+	printf("Antes recv\n");
 	while(1){
-	printf("rec\n");
         recvfrom(socketserver, msg, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
         //Decodificar CRC
-        c = (char *)msg;
+        printf("recebeu\n");
+	c = (char *)msg;
         if (crc8(0,c,279) == msg->crc){ // Se crc calculado da msg é igual ao campo crc da msg ele executa, caso contrario ele nao repassa a msg
             if(msg->token == 1){ // Ve se é o token
             printf("token\n");
@@ -55,7 +55,7 @@ void* escuta()
                 read_timeout.tv_sec = 1;
                 read_timeout.tv_usec = 1000;
                 a = 100;
-                a = select(sockdescr+1,&readset,NULL,NULL,&read_timeout);
+                a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
                 if (a != 1) { // A confirmação do token está de boas, caso nao esteja ele volta a escutar
                     if ((fila->tam > 0) && (msg->hi_priority <= fila->hi_priority)) { // Tem msg pra enviar e prioridade da fila maior ou igual a prioridade da rede
                         aux = msg;
@@ -67,7 +67,7 @@ void* escuta()
                                 read_timeout.tv_sec = 2;
                                 read_timeout.tv_usec = 2000;
                                 a = 100;
-                                a = select(sockdescr+1,&readset,NULL,NULL,&read_timeout);
+                                a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
                                 if (a == 1) { //Mensagem foi recebida
                                     recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
                                     if ((strcmp(aux->destiny, prox->destiny) == 0) && (strcmp(aux->source, prox->source) == 0) && (aux->monitor == 1)) { //Mensagem recebida pelo destino
@@ -89,7 +89,7 @@ void* escuta()
                         read_timeout.tv_sec = 2;
                         read_timeout.tv_usec = 2000;
                         a = 100;
-                        a = select(sockdescr+1,&readset,NULL,NULL,&read_timeout);
+                        a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
                         if (a == 1) { //Mensagem foi recebida
                             recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
                             if ((strcmp(aux->destiny, msg->destiny) == 0) && (strcmp(aux->source, msg->source) == 0) && (aux->monitor == 1)) { //Mensagem recebida pelo destino
@@ -178,7 +178,7 @@ main(int argc, char *argv[])
         copia_string(host, token->source);
         copia_string(destiny, token->destiny);
         token->size = 0;
-        memset(token->data, 0, 256*sizeof(char));
+        token->data[0] = '\n';
         c = (char *)token;
         printf("aqui\n");
         token->crc = crc8(0, c, 279);
@@ -327,4 +327,3 @@ double timestamp(void){
     gettimeofday(&tp, NULL);
     return((double)(tp.tv_sec*1000.0 + tp.tv_usec/1000.0));
 }
-
