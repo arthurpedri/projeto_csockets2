@@ -175,6 +175,7 @@ main(int argc, char *argv[])
         token->priority = 0;
         token->token = 1;
         token->monitor = 0;
+        token->hi_priority = 0;
         copia_string(host, token->source);
         copia_string(destiny, token->destiny);
         token->size = 0;
