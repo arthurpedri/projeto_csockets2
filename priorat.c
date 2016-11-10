@@ -259,7 +259,8 @@ void prepara_msg(Packet *msg,char *buffer,char *host){
         i++;
         k++;
     }
-    strcpy(host, msg->source);
+
+    copia_string(host, msg->source);
     msg->monitor = 0;
 }
 
