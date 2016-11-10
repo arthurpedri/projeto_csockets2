@@ -53,6 +53,8 @@ void* escuta()
                 msg->token = 0;
                 msg->monitor = 1;
                 printf("source: %s\ndestiny: %s\n",msg->source, msg->destiny);
+                c = (char *)msg;
+                msg->crc = crc8(0, c, 279);
                 sendto(sockdescr, msg, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
                 read_timeout.tv_sec = 3;
                 read_timeout.tv_usec = 3000;
