@@ -209,7 +209,7 @@ main(int argc, char *argv[])
         printf("Envio do primeiro token%d\n", a);
         if (a == 1) { //Mensagem foi recebida
             recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
-            printf("Lendo a confirmação: %s destiny: %s srtcmp: %d %d monitor:%d\n",aux->source, aux->destiny, strcmp(aux->destiny, aux->destiny). strcmp(aux->source, token->source), to);
+            printf("Lendo a confirmação: %s destiny: %s srtcmp: %d %d monitor:%d\n",aux->source, aux->destiny, strcmp(aux->destiny, aux->destiny), strcmp(aux->source, token->source), to);
             if ((strcmp(aux->destiny, token->destiny) == 0) && (strcmp(aux->source, token->source) == 0) && (aux->monitor == 1)) { //Mensagem recebida pelo destino
                 printf("confirmação de recebimento\n");
             }
