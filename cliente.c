@@ -32,7 +32,9 @@ fd_set readset;
 void* escuta()
 {
     Packet *msg = malloc(sizeof(Packet));
+    memset(msg,280,sizeof(char));
     Packet *aux = malloc(sizeof(Packet));
+    memset(aux,280,sizeof(char));
     double tempo_inicial;
     unsigned int i;
     int a;
