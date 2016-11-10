@@ -32,9 +32,9 @@ fd_set readset;
 void* escuta()
 {
     Packet *msg = malloc(sizeof(Packet));
-    memset(msg,280,sizeof(char));
+    memset(msg,0,280*sizeof(char));
     Packet *aux = malloc(sizeof(Packet));
-    memset(aux,280,sizeof(char));
+    memset(aux,0,280*sizeof(char));
     double tempo_inicial;
     unsigned int i;
     int a;
@@ -66,10 +66,14 @@ void* escuta()
                         aux = msg;
                         tempo_inicial = timestamp();
                         while ((((timestamp() - tempo_inicial)/1000) < 10) && (fila->hi_priority >= aux->hi_priority) && (fila->tam !=0)) {// While de tempo de bastão enviando mensagem
-                            Packet *prox = pop_fila(fila);
+                            Packet *prox = malloc(sizeof(Packet));
+                            memset(prox,0,280*sizeof(char));
+                            prox = pop_fila(fila);
                             while(1){ // timeout de envio de msg
+                                printf("È aqui\n");
                                 c = (char *)prox;
                                 prox->crc = crc8(0, c, 279);
+                                printf("Passou\n");
                                 sendto(sockdescr, prox, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
                                 read_timeout.tv_sec = 2;
                                 read_timeout.tv_usec = 2000;

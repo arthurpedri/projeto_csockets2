@@ -66,8 +66,9 @@ void* escuta()
                         aux = msg;
                         tempo_inicial = timestamp();
                         while ((((timestamp() - tempo_inicial)/1000) < 10) && (fila->hi_priority >= aux->hi_priority) && (fila->tam !=0)) {// While de tempo de bastão enviando mensagem
-                            Packet *prox = pop_fila(fila);
+                            Packet *prox = malloc(sizeof(Packet));
                             memset(prox,0,280*sizeof(char));
+                            prox = pop_fila(fila);
                             while(1){ // timeout de envio de msg
                                 printf("È aqui\n");
                                 c = (char *)prox;
