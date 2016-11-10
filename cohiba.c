@@ -245,6 +245,7 @@ main(int argc, char *argv[])
 
 void prepara_msg(Packet *msg,char *buffer,char *host){
     int i,j;
+    memset(msg,0,280*sizeof(char));
     while (buffer[i] != ' ') {
         msg->destiny[i] = buffer[i];
         i++;
