@@ -86,6 +86,7 @@ void* escuta()
                     c = (char *)msg;
                     msg->crc = crc8(0, c, 279);
                     while(1){ // timeout de envio de token
+                        printf("while de timout\n", );
                         sendto(sockdescr, msg, 280, 0, (struct sockaddr *) &sa, sizeof(sa));
                         read_timeout.tv_sec = 2;
                         read_timeout.tv_usec = 2000;
