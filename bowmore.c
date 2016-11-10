@@ -95,6 +95,7 @@ void* escuta()
                         a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
                         if (a == 1) { //Mensagem foi recebida
                             recvfrom(socketserver, aux, 280, 0, (struct sockaddr *) &isa, sizeof(isa));
+                            printf("Lendo a confirmação: %s\ndestiny: %s\n",aux->source, aux->destiny);
                             if ((strcmp(aux->destiny, msg->destiny) == 0) && (strcmp(aux->source, msg->source) == 0) && (aux->monitor == 1)) { //Mensagem recebida pelo destino
                                 break;
                             }
