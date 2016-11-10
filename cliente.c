@@ -57,6 +57,7 @@ void* escuta()
                 read_timeout.tv_usec = 1000;
                 a = 100;
                 a = select(socketserver+1,&readset,NULL,NULL,&read_timeout);
+                printf("Resposta do select: %d\n", a);
                 if (a != 1) { // A confirmação do token está de boas, caso nao esteja ele volta a escutar
                     if ((fila->tam > 0) && (msg->hi_priority <= fila->hi_priority)) { // Tem msg pra enviar e prioridade da fila maior ou igual a prioridade da rede
                         aux = msg;
