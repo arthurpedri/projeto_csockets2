@@ -78,6 +78,7 @@ void* escuta()
                         }
                     }
                     // Mandar token pra rede
+                    printf("gerando token\n");
                     msg->token = 1;
                     msg->monitor = 0;
                     copia_string(host, msg->source);
@@ -175,9 +176,11 @@ main(int argc, char *argv[])
         token->priority = 0;
         token->token = 1;
         token->monitor = 0;
+        token->hi_priority = 0;
         copia_string(host, token->source);
         copia_string(destiny, token->destiny);
         token->size = 0;
+        memset(token->data,0,DATA_MAXSIZE*sizeof(char));
         token->data[0] = '\n';
         c = (char *)token;
         printf("aqui\n");

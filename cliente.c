@@ -78,6 +78,7 @@ void* escuta()
                         }
                     }
                     // Mandar token pra rede
+                    printf("gerando token\n");
                     msg->token = 1;
                     msg->monitor = 0;
                     copia_string(host, msg->source);
@@ -318,7 +319,6 @@ unsigned crc8(unsigned crc, char *data, size_t len)
     // end = data + len;
     end = 0;
     do {
-        printf("%d-%c\n", end, data[end]);
         crc = crc8_table[crc ^ data[end]];
         end++;
     } while (end < len);
